@@ -68,12 +68,57 @@ $(".list-group").on("blur", "textarea", function() {
     .attr("id")
     .replace("list-", "");
 
-    var index = $(this)
-      .closest(".list-group-item")
-      .index();
+  var index = $(this)
+    .closest(".list-group-item")
+    .index();
 
 tasks[status][index].text = text;
 saveTasks();
+
+var taskP = $("<p>")
+  .addClass("m-1")
+  .text(text);
+
+$(this).replaceWith(taskP);
+
+});
+
+$(".list-group").on("click", "span", function() {
+  var date = $(this)
+    .text()
+    .trim();
+
+  var dateInput = $("<input>")
+    .attr("type", "text")
+    .addClass("form-control")
+    .val(date);
+
+  $(this).replaceWith(dateInput);
+
+  dateInput.trigger("focus");
+
+});
+
+$(".list-group").on("blur", "input[type='text']", function() {
+  var date = $(this)
+    .val()
+    .trim();
+
+  var status = $(this)
+    .closest(".list-group")
+    .attr("id")
+    .replace("list-", "");
+
+  var index = $(this)
+    .closest(".list-group-item")
+    .index();
+
+  var taskSpan = $("<span>")
+    .addClass("badge badge-primary badge-pill")
+    .text(date);
+
+  $(this).replaceWith(taskSpan);
+  
 });
 
 // modal was triggered
