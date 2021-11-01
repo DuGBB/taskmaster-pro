@@ -23,6 +23,7 @@ var loadTasks = function() {
 
   // if nothing in localStorage, create a new object to track all task status arrays
   if (!tasks) {
+    console.log("no tasks exist in local storage.  now initializing//")
     tasks = {
       toDo: [],
       inProgress: [],
@@ -33,7 +34,7 @@ var loadTasks = function() {
 
   // loop over object properties
   $.each(tasks, function(list, arr) {
-    console.log(list, arr);
+
     // then loop over sub-array
     arr.forEach(function(task) {
       createTask(task.text, task.date, list);
@@ -45,8 +46,35 @@ var saveTasks = function() {
   localStorage.setItem("tasks", JSON.stringify(tasks));
 };
 
+$(".list-group").on("click", "p", function() {
+  var text = $(this)
+    .text()
+    .trim();
+    var textInput = $("<textarea>")
+      .addClass("form-control")
+      .val(text);
+    $(this).replaceWith(textInput);
+    textInput.trigger("focus");
+  console.log(text);
+});
 
+$(".list-group").on("blur", "textarea", function() {
+  var text = $(this)
+    .val()
+    .trim();
 
+  var status = $(this)
+    .closest(".list-group")
+    .attr("id")
+    .replace("list-", "");
+
+    var index = $(this)
+      .closest(".list-group-item")
+      .index();
+
+tasks[status][index].text = text;
+saveTasks();
+});
 
 // modal was triggered
 $("#task-form-modal").on("show.bs.modal", function() {
