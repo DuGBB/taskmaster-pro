@@ -191,31 +191,23 @@ $(".list-group").on("change", "input[type='text']", function() {
   auditTask($(taskSpan).closest(".list-group-item"));
 });
 
-// modal was triggered
 $("#task-form-modal").on("show.bs.modal", function() {
-  // clear values
   $("#modalTaskDescription, #modalDueDate").val("");
 });
 
-// modal is fully visible
 $("#task-form-modal").on("shown.bs.modal", function() {
-  // highlight textarea
   $("#modalTaskDescription").trigger("focus");
 });
 
-// save button in modal was clicked
 $("#task-form-modal .btn-primary").click(function() {
-  // get form values
   var taskText = $("#modalTaskDescription").val();
   var taskDate = $("#modalDueDate").val();
 
   if (taskText && taskDate) {
     createTask(taskText, taskDate, "toDo");
 
-    // close modal
     $("#task-form-modal").modal("hide");
 
-    // save in tasks array
     tasks.toDo.push({
       text: taskText,
       date: taskDate
@@ -253,7 +245,11 @@ $("#trash").droppable({
   }
 });
 
-// load tasks for the first time
 loadTasks();
 
+setInterval(function() {
+  $(".card .list-group-item").each(function(index, el) {
+      auditTask(el);
+  })
+}, (1000 * 60) * 30);
 
