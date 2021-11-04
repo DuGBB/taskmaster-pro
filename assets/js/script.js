@@ -22,15 +22,19 @@ $(".card .list-group").sortable({
   tolerance: "pointer",
   helper: "clone",
   activate: function(event) {
+    $(this).addClass("dropover");
     console.log("activate", this);
   },
   deactivate: function(event) {
+    $(this).removeClass("dropover");
     console.log("deactivate", this);
   },
   over: function(event) {
+    $(event.target).addClass("dropover-active");
     console.log("over", event.target);
   },
   out: function(event) {
+    $(event.target).removeClass("dropover-active");
     console.log("out", event.target);
   },
 
